@@ -1,9 +1,9 @@
 [
     {
         "_id": "abc123",
-        "title": "Cannot save a new car",
-        "description": "problem when clicking Save",
-        "severity": 3,
+        "title": "Cant use axios",
+        "description": "axios cant get node from public",
+        "severity": 5,
         "createdAt": 1542107359454
     },
     {
@@ -15,9 +15,16 @@
     },
     {
         "_id": "abc125",
-        "title": "Cannot save a new car",
+        "title": "Cannot save a new bug",
         "description": "problem when clicking Save",
         "severity": 3,
+        "createdAt": 1542107359454
+    },
+    {
+        "_id": "abc126",
+        "title": "No time to sleep",
+        "description": "problem with time",
+        "severity": 1,
         "createdAt": 1542107359454
     }
 ]

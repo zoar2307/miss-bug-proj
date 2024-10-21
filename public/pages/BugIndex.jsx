@@ -8,6 +8,7 @@ export function BugIndex() {
     const [bugs, setBugs] = useState(null)
 
     useEffect(() => {
+        console.log('456')
         loadBugs()
     }, [])
 
@@ -33,6 +34,7 @@ export function BugIndex() {
     function onAddBug() {
         const bug = {
             title: prompt('Bug title?'),
+            description: prompt('Bug description?'),
             severity: +prompt('Bug severity?'),
         }
         bugService

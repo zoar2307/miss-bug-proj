@@ -37,7 +37,6 @@ function save(bugToSave) {
         bugToSave.createdAt = Date.now()
         bugs.unshift(bugToSave)
     }
-
     return _saveBugsToFile()
         .then(() => bugToSave)
 }

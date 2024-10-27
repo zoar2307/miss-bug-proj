@@ -4,7 +4,7 @@ import Cryptr from 'cryptr'
 import { utilService } from "./util.service.js"
 import { bugService } from './bug.service.js'
 
-const cryptr = new Cryptr(process.env.SECRET)
+const cryptr = new Cryptr(process.env.SECRET || 'secret')
 const users = utilService.readJsonFile('./data/user.json')
 
 export const userService = {
@@ -34,20 +34,11 @@ function getById(userId) {
 }
 
 function remove(userId, loggedInUser) {
-    return bugService.query({ all: 'all' })
-        .then(bugs => {
-            const selectUserIdx = users.findIndex(user => user._id === userId)
-            if (selectUserIdx < 0) return Promise.reject(`Cant find ${userId}`)
-            if (!loggedInUser.isAdmin) {
-                return Promise.reject('Cant remove user you are not admin')
-            }
-            bugs = bugs.filter(bug => bug.creator._id === userId)
-            if (bugs.length > 0) {
-                return Promise.reject('Cant remove user have bugs')
-            }
-            users.splice(selectUserIdx, 1)
-            return _saveUsersToFile()
-        })
+    const selectUserIdx = users.findIndex(user => user._id === userId)
+    if (selectUserIdx < 0 || !loggedInUser.isAdmin) return Promise.reject(`Cant remove user`)
+
+    users.splice(selectUserIdx, 1)
+    return _saveUsersToFile()
 
 }
 

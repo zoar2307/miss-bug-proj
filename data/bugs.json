@@ -1,19 +1,5 @@
 [
     {
-        "title": "Future Bug",
-        "description": "Future Bug will be delete the past",
-        "severity": 0,
-        "labels": [
-            "future"
-        ],
-        "_id": "umL8W",
-        "createdAt": 1730031070190,
-        "creator": {
-            "_id": "EvlyW",
-            "fullname": "Shuki Sha"
-        }
-    },
-    {
         "title": "Buggy",
         "description": "Buggy Bug",
         "severity": 4,

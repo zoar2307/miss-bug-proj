@@ -99,13 +99,18 @@ app.get('/api/user', (req, res) => {
 app.delete('/api/user/:userId', (req, res) => {
     const loggedInUser = userService.validateToken(req.cookies.loginToken)
     if (!loggedInUser) return res.status(401).send('Cannot remove user')
-
     const { userId } = req.params
     console.log(userId)
-    userService.remove(userId, loggedInUser)
-        .then(() => {
-            res.send('removed')
-        }).catch(err => loggerService.error(err))
+
+    bugService.userBugCount(userId)
+        .then(bugCount => {
+            console.log(bugCount)
+            if (bugCount > 0) return res.status(401).send('Cannot remove user')
+            userService.remove(userId, loggedInUser)
+                .then(() => {
+                    res.send('removed')
+                }).catch(err => loggerService.error(err))
+        })
 })
 
 app.get('/api/user/:userId', (req, res) => {

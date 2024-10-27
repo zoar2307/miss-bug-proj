@@ -13,16 +13,13 @@ export const bugService = {
     remove,
     save,
     queryLabels,
+    userBugCount
 }
 
 function query(filterBy) {
     return Promise.resolve(bugs)
         .then(bugs => {
-            console.log(filterBy)
 
-            if (filterBy.all === 'all') {
-                return bugs
-            }
             if (filterBy.txt) {
                 const regExp = new RegExp(filterBy.txt, 'i')
                 bugs = bugs.filter(bug => regExp.test(bug.title))
@@ -43,6 +40,11 @@ function query(filterBy) {
             const startIdx = filterBy.pageIdx * PAGE_SIZE
             return bugs.slice(startIdx, startIdx + PAGE_SIZE)
         })
+}
+
+function userBugCount(userId) {
+    const userBugs = bugs.filter(bug => bug.creator._id === userId)
+    return Promise.resolve(userBugs.length)
 }
 
 function queryLabels() {

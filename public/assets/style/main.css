@@ -105,8 +105,79 @@ nav a:hover {
 }
 
 .info-actions {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1em;
+    width: 300px;
+    margin: 1em auto;
+    padding: 1em;
+    background-color: rgba(240, 240, 240, 0.531);
+    border-radius: .4em;
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.31);
 }
+
+.info-actions div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .2em;
+}
+
+.info-actions label {
+    min-width: max-content;
+}
+
+
+.info-actions input,
+.info-actions select {
+    padding: .4em;
+    border-radius: .2em;
+    border: 1px solid rgba(178, 178, 178, 0.531);
+    width: 100%;
+}
+
+.info-actions .buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 .container {
     padding-inline: 8rem;
+}
+
+button {
+    background-color: rgb(224, 241, 247);
+    border: 1px solid lightblue;
+    margin: 0.2em;
+    padding: .4em;
+    height: 3vh;
+    cursor: pointer;
+}
+
+.labels-container {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgb(255, 255, 255);
+    padding: .4em;
+}
+
+
+.label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 0.2em;
+    background-color: rgb(224, 241, 247);
+    border: 1px solid lightblue;
+    padding: .4em;
+    height: 1vh;
+    cursor: pointer;
+}
+
+.label.active {
+    box-shadow: inset 0px 0px 2px 0px rgba(0, 0, 0, 0.41);
 }

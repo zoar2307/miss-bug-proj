@@ -25,6 +25,9 @@ export function BugDetails() {
         <h3>Bug Details 🐛</h3>
         <h4>{bug.title}</h4>
         <p>Description: <span>{bug.description}</span></p>
+        {bug.labels.length !== 0 && <p>labels: {bug.labels.map((label, idx) => {
+            return <span key={idx}> {label} </span>
+        })}</p>}
         <p>Severity: <span>{bug.severity}</span></p>
         <Link to="/bug">Back to List</Link>
     </div>

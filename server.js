@@ -2,26 +2,56 @@ import express from 'express'
 import { loggerService } from './services/logger.service.js'
 import { bugService } from './services/bug.service.js'
 import cookieParser from 'cookie-parser'
+import { createPdf } from './services/PDFService.js'
 
 const app = express()
-const port = 3030
+const PORT = process.env.PORT
+const SECRET1 = process.env.SECRET1
+
 
 app.use(express.static('public'))
 app.use(cookieParser())
+app.use(express.json())
 
 app.get('/api/bug', (req, res) => {
-    bugService.query()
+    const filterBy = req.query
+    bugService.query(filterBy)
         .then(bugs => res.send(bugs))
         .catch(err => loggerService.error('Cant load bugs' + err))
 })
 
-app.get('/api/bug/save', (req, res) => {
-    const { _id, title, description, severity } = req.query
+app.get('/api/labels', (req, res) => {
+    bugService.queryLabels()
+        .then(labels => res.send(labels))
+        .catch(err => loggerService.error('Cant load labels' + err))
+})
+
+app.get('/api/bug/pdf', (req, res) => {
+    bugService.query()
+        .then(bugs => {
+            createPdf('data/Bugs.pdf', bugs)
+            res.send('pdf read ar data/Bugs.pdf')
+        })
+        .catch(err => loggerService.error('Cant create pdf' + err))
+})
+
+
+app.post('/api/bug', (req, res) => {
+    const { title, description, severity, labels } = req.body
+    const bugToSave = { title, description, severity: +severity, labels }
+    bugService.save(bugToSave)
+        .then(bug => res.send(bug))
+        .catch(err => loggerService.error('Cant save bug' + err))
+})
+
+app.put('/api/bug', (req, res) => {
+    const { _id, title, description, severity } = req.body
     const bugToSave = { _id, title, description, severity: +severity }
     bugService.save(bugToSave)
         .then(bug => res.send(bug))
         .catch(err => loggerService.error('Cant save bug' + err))
 })
+
 
 app.get('/api/bug/:bugId', (req, res) => {
     const { bugId } = req.params
@@ -40,12 +70,12 @@ app.get('/api/bug/:bugId', (req, res) => {
         .catch(err => loggerService.error('Cant get bug' + err))
 })
 
-app.get('/api/bug/:bugId/remove', (req, res) => {
+app.delete('/api/bug/:bugId', (req, res) => {
     const { bugId } = req.params
     bugService.remove(bugId)
         .then(() => res.send(`Bug ${bugId} removed`))
         .catch(err => loggerService.error('Cant remove bug' + err))
 })
 
-app.listen(port, () =>
-    loggerService.info(`Server is ready on http://127.0.0.1:${port}/`))
+app.listen(PORT, () =>
+    loggerService.info(`Server is ready on http://127.0.0.1:${PORT}/`))

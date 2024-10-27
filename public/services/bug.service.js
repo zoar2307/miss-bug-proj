@@ -3,6 +3,8 @@
 import axios from 'axios'
 import { storageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
+import { func } from 'prop-types'
+import { page } from 'pdfkit'
 
 const STORAGE_KEY = 'bugDB'
 const BASE_URL = '/api/bug/'
@@ -10,28 +12,51 @@ const BASE_URL = '/api/bug/'
 
 export const bugService = {
     query,
+    queryLabels,
     getById,
     save,
     remove,
+    createPdf,
+    getDefaultFilter
 }
 
 
-function query() {
-    return axios.get(BASE_URL).then(res => res.data)
+function query(filterBy = {}) {
+    return axios.get(BASE_URL, { params: filterBy })
+        .then(res => res.data)
 }
+
+function queryLabels() {
+    return axios.get('/api/labels')
+        .then(res => res.data)
+}
+
+
+
+function getDefaultFilter() {
+    return { txt: '', sortBy: 'createdAt', sortDir: -1, minSeverity: 1, pageIdx: 0, selectedLabels: [] }
+}
+
+
 function getById(bugId) {
     return axios.get(BASE_URL + bugId).then(res => res.data)
 }
 
 function remove(bugId) {
-    return axios.get(BASE_URL + bugId + '/remove')
+    return axios.delete(BASE_URL + bugId)
 }
 
 function save(bug) {
-    const url = BASE_URL + 'save'
-    let queryParams = `?title=${bug.title}&severity=${bug.severity}&description=${bug.description}`
-    if (bug._id) queryParams += `&_id=${bug._id}`
-    return axios.get(url + queryParams).then(res => res.data)
+    if (bug._id) {
+        return axios.put(BASE_URL, bug).then(res => res.data)
+    } else {
+        return axios.post(BASE_URL, bug).then(res => res.data)
+    }
+
+}
+
+function createPdf() {
+    return axios.get(BASE_URL + 'pdf')
 }
 
 

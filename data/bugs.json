@@ -1,30 +1,62 @@
 [
     {
-        "_id": "abc123",
-        "title": "Cant use axios",
-        "description": "axios cant get node from public",
-        "severity": 5,
-        "createdAt": 1542107359454
+        "title": "Bug2000",
+        "description": "test",
+        "severity": 2,
+        "labels": [
+            "Crazy",
+            "Amazing",
+            "2000"
+        ],
+        "_id": "UEUPQ",
+        "createdAt": 1729603105827,
+        "creator": {
+            "_id": "u102",
+            "fullname": "Puki Po"
+        }
     },
     {
-        "_id": "abc124",
-        "title": "Cannot save a new car",
-        "description": "problem when clicking Save",
-        "severity": 3,
-        "createdAt": 1542107359454
+        "title": "Text",
+        "description": "Test",
+        "severity": 4,
+        "labels": [
+            "Test"
+        ],
+        "_id": "GIQ29",
+        "createdAt": 1729603014882,
+        "creator": {
+            "_id": "u102",
+            "fullname": "Puki Po"
+        }
     },
     {
-        "_id": "abc125",
-        "title": "Cannot save a new bug",
-        "description": "problem when clicking Save",
-        "severity": 3,
-        "createdAt": 1542107359454
-    },
-    {
-        "_id": "abc126",
-        "title": "No time to sleep",
-        "description": "problem with time",
+        "title": "Test Bug",
+        "description": "dada",
         "severity": 1,
-        "createdAt": 1542107359454
+        "labels": [
+            "Bad",
+            "Dangerous",
+            "☠️"
+        ],
+        "_id": "JV29B",
+        "createdAt": 1729597551329,
+        "creator": {
+            "_id": "u102",
+            "fullname": "Puki Po"
+        }
+    },
+    {
+        "title": "Bugu",
+        "description": "l",
+        "severity": 4,
+        "_id": "Gbjxd",
+        "createdAt": 1729592943090,
+        "labels": [
+            "Save"
+        ],
+        "creator": {
+            "_id": "u101",
+            "fullname": "Zohar Yevelkin"
+        }
     }
 ]

@@ -3,10 +3,10 @@ import { loggerService } from './services/logger.service.js'
 import { bugService } from './services/bug.service.js'
 import cookieParser from 'cookie-parser'
 import { createPdf } from './services/PDFService.js'
+import { userService } from './services/userService.js'
 
 const app = express()
-const PORT = process.env.PORT
-const SECRET1 = process.env.SECRET1
+const PORT = 3030
 
 
 app.use(express.static('public'))
@@ -35,7 +35,6 @@ app.get('/api/bug/pdf', (req, res) => {
         .catch(err => loggerService.error('Cant create pdf' + err))
 })
 
-
 app.post('/api/bug', (req, res) => {
     const { title, description, severity, labels } = req.body
     const bugToSave = { title, description, severity: +severity, labels }
@@ -52,7 +51,6 @@ app.put('/api/bug', (req, res) => {
         .catch(err => loggerService.error('Cant save bug' + err))
 })
 
-
 app.get('/api/bug/:bugId', (req, res) => {
     const { bugId } = req.params
     bugService.getById(bugId)
@@ -64,7 +62,6 @@ app.get('/api/bug/:bugId', (req, res) => {
                 res.cookie('visitedBugs', visitedBugs, { maxAge: 1000 * 7 })
             }
             return bug
-
         })
         .then(bug => res.send(bug))
         .catch(err => loggerService.error('Cant get bug' + err))
@@ -75,6 +72,23 @@ app.delete('/api/bug/:bugId', (req, res) => {
     bugService.remove(bugId)
         .then(() => res.send(`Bug ${bugId} removed`))
         .catch(err => loggerService.error('Cant remove bug' + err))
+})
+
+// USER
+
+app.get('/api/user', (req, res) => {
+    userService.query()
+        .then(users => {
+            res.send(users)
+        }).catch(err => loggerService.error('Cant load users' + err))
+})
+
+app.get('/api/user/:userId', (req, res) => {
+    const { userId } = req.params
+    userService.getById(userId)
+        .then(user => {
+            res.send(user)
+        }).catch(err => loggerService.error('Cant load user' + err))
 })
 
 app.listen(PORT, () =>

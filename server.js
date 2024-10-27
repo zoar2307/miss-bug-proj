@@ -36,19 +36,28 @@ app.get('/api/bug/pdf', (req, res) => {
 })
 
 app.post('/api/bug', (req, res) => {
+    const loggedInUser = userService.validateToken(req.cookies.loginToken)
+    if (!loggedInUser) return res.status(401).send('Cannot add bug')
+
     const { title, description, severity, labels } = req.body
     const bugToSave = { title, description, severity: +severity, labels }
-    bugService.save(bugToSave)
+    bugService.save(bugToSave, loggedInUser)
         .then(bug => res.send(bug))
         .catch(err => loggerService.error('Cant save bug' + err))
 })
 
 app.put('/api/bug', (req, res) => {
+    const loggedInUser = userService.validateToken(req.cookies.loginToken)
+    if (!loggedInUser) return res.status(401).send('Cannot edit bug')
+
     const { _id, title, description, severity } = req.body
     const bugToSave = { _id, title, description, severity: +severity }
-    bugService.save(bugToSave)
+    bugService.save(bugToSave, loggedInUser)
         .then(bug => res.send(bug))
-        .catch(err => loggerService.error('Cant save bug' + err))
+        .catch(err => {
+            res.status(401).send('Cannot edit bug ' + err)
+            loggerService.error('Cant save bug ' + err)
+        })
 })
 
 app.get('/api/bug/:bugId', (req, res) => {
@@ -68,8 +77,11 @@ app.get('/api/bug/:bugId', (req, res) => {
 })
 
 app.delete('/api/bug/:bugId', (req, res) => {
+    const loggedInUser = userService.validateToken(req.cookies.loginToken)
+    if (!loggedInUser) return res.status(401).send('Cannot remove bug')
+
     const { bugId } = req.params
-    bugService.remove(bugId)
+    bugService.remove(bugId, loggedInUser)
         .then(() => res.send(`Bug ${bugId} removed`))
         .catch(err => loggerService.error('Cant remove bug' + err))
 })
@@ -121,7 +133,10 @@ app.post('/api/auth/signup', (req, res) => {
         })
 })
 
-
+app.post('/api/auth/logout', (req, res) => {
+    res.clearCookie('loginToken')
+    res.send('logged-out!')
+})
 
 app.listen(PORT, () =>
     loggerService.info(`Server is ready on http://127.0.0.1:${PORT}/`))

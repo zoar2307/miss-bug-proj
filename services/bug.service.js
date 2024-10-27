@@ -30,7 +30,7 @@ function query(filterBy) {
             if (filterBy.sortBy === 'title') bugs.sort((b1, b2) => b1.title.localeCompare(b2.title) * +filterBy.sortDir)
             else bugs.sort((b1, b2) => (b1[filterBy.sortBy] - b2[filterBy.sortBy]) * +filterBy.sortDir)
 
-            const startIdx = filterBy.pageIdx * PAGE_SIZE
+            const startIdx = filterBy.pageIdx || 0 * PAGE_SIZE
             return bugs.slice(startIdx, startIdx + PAGE_SIZE)
         })
 }
@@ -58,22 +58,36 @@ function getById(bugId) {
     return Promise.resolve(selectBug)
 }
 
-function remove(bugId) {
+function remove(bugId, loggedInUser) {
     const selectBugIdx = bugs.findIndex(bug => bug._id === bugId)
     if (selectBugIdx < 0) return Promise.reject(`Cant find ${bugId}`)
+
+    const bug = bugs[idx]
+    if (!loggedInUser.isAdmin &&
+        bug.creator._id !== loggedInUser._id) {
+        return Promise.reject('Not your bug')
+    }
+
     bugs.splice(selectBugIdx, 1)
     getAllLabels()
     return _saveBugsToFile()
 }
 
-function save(bugToSave) {
-    bugToSave.labels = bugToSave.labels.split(',') || bugToSave.labels
+function save(bugToSave, loggedInUser) {
+    if (bugToSave.labels && bugToSave.labels.length > 0) {
+        bugToSave.labels = bugToSave.labels.split(',') || bugToSave.labels
+    }
     if (bugToSave._id) {
         const bugIdx = bugs.findIndex(bug => bug._id === bugToSave._id)
+        if (!loggedInUser.isAdmin &&
+            bugs[bugIdx].creator._id !== loggedInUser._id) {
+            return Promise.reject('Not your bug')
+        }
         bugs[bugIdx] = { ...bugs[bugIdx], ...bugToSave }
     } else {
         bugToSave._id = utilService.makeId()
         bugToSave.createdAt = Date.now()
+        bugToSave.creator = loggedInUser
         bugs.unshift(bugToSave)
     }
     getAllLabels()

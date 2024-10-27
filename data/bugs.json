@@ -1,5 +1,17 @@
 [
     {
+        "title": "Buggy",
+        "description": "Buggy Bug",
+        "severity": 4,
+        "labels": [],
+        "_id": "H1SdA",
+        "createdAt": 1730027139941,
+        "creator": {
+            "_id": "AoJjZ",
+            "fullname": "Muki Mo"
+        }
+    },
+    {
         "title": "Bug2000",
         "description": "test",
         "severity": 2,

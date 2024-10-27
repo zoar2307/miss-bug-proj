@@ -10,7 +10,11 @@ export const userService = {
     query,
     getById,
     remove,
-    save
+    save,
+
+    checkLogin,
+    getLoginToken,
+    validateToken
 }
 
 function query() {
@@ -22,7 +26,7 @@ function getById(userId) {
     let user = users.find(user => user._id === userId)
     if (!user) return Promise.reject(`Cant find User`)
     user = {
-        id: user._id,
+        _id: user._id,
         fullname: user.fullname
     }
     return Promise.resolve(user)
@@ -36,12 +40,40 @@ function remove(userId) {
 function save(user) {
     user._id = utilService.makeId()
     users.push(user)
-    _saveUsersToFile()
+    return _saveUsersToFile()
         .then(() => ({
             _id: user._id,
             fullname: user.fullname,
             isAdmin: user.isAdmin,
         }))
+}
+
+function checkLogin({ username, password }) {
+    let user = users.find(user => user.username === username && user.password === password)
+
+    if (user) {
+        user = {
+            _id: user._id,
+            fullname: user.fullname,
+            isAdmin: user.isAdmin,
+        }
+    }
+    return Promise.resolve(user)
+}
+
+function getLoginToken(user) {
+    const str = JSON.stringify(user)
+    const encryptedStr = cryptr.encrypt(str)
+    return encryptedStr
+}
+
+
+function validateToken(token) {
+    if (!token) return null
+
+    const str = cryptr.decrypt(token)
+    const user = JSON.parse(str)
+    return user
 }
 
 function _saveUsersToFile() {

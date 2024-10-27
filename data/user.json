@@ -1,16 +1,27 @@
 [
-    {
-        "_id": "u101",
-        "fullname": "Zohar Yevelkin",
-        "username": "zz",
-        "password": "zz",
-        "isAdmin": true
-    },
-    {
-        "_id": "u102",
-        "fullname": "Puki Po",
-        "username": "pp",
-        "password": "pp",
-        "isAdmin": false
-    }
+  {
+    "_id": "u101",
+    "fullname": "Zohar Yevelkin",
+    "username": "zz",
+    "password": "zz",
+    "isAdmin": true
+  },
+  {
+    "_id": "u102",
+    "fullname": "Puki Po",
+    "username": "pp",
+    "password": "pp"
+  },
+  {
+    "fullname": "Testy Test",
+    "username": "test",
+    "password": "tt",
+    "_id": "ErLH7"
+  },
+  {
+    "fullname": "Muki Mo",
+    "username": "muki",
+    "password": "mm",
+    "_id": "AoJjZ"
+  }
 ]

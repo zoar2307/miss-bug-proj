@@ -91,5 +91,37 @@ app.get('/api/user/:userId', (req, res) => {
         }).catch(err => loggerService.error('Cant load user' + err))
 })
 
+// USER AUTH
+
+app.post('/api/auth/login', (req, res) => {
+    const credentials = req.body
+    userService.checkLogin(credentials)
+        .then(user => {
+            if (user) {
+                const loginToken = userService.getLoginToken(user)
+                res.cookie('loginToken', loginToken)
+                res.send(user)
+            } else {
+                res.status(401).send('Invalid Credentials')
+            }
+        })
+})
+
+app.post('/api/auth/signup', (req, res) => {
+    const credentials = req.body
+    userService.save(credentials)
+        .then(user => {
+            if (user) {
+                const loginToken = userService.getLoginToken(user)
+                res.cookie('loginToken', loginToken)
+                res.send(user)
+            } else {
+                res.status(401).send('Invalid Credentials')
+            }
+        })
+})
+
+
+
 app.listen(PORT, () =>
     loggerService.info(`Server is ready on http://127.0.0.1:${PORT}/`))

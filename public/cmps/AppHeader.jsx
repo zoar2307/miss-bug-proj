@@ -1,4 +1,4 @@
-const { NavLink } = ReactRouterDOM
+const { NavLink, useLocation } = ReactRouterDOM
 const { useEffect, useState } = React
 const { useNavigate } = ReactRouter
 
@@ -7,6 +7,11 @@ import { UserMsg } from './UserMsg.jsx'
 
 export function AppHeader() {
     const [user, setUser] = useState(userService.getLoggedInUser())
+    const location = useLocation();
+
+    useEffect(() => {
+        setUser(userService.getLoggedInUser())
+    }, [location])
     const navigate = useNavigate()
     function onLogout() {
         userService.logout()
@@ -28,7 +33,9 @@ export function AppHeader() {
                 <NavLink to="/about">About</NavLink>
                 {user ? (
                     <div>
-                        <h5>{user.fullname} </h5>
+                        <NavLink to="/user">
+                            {user.fullname}
+                        </NavLink>
                         <button onClick={onLogout}>Logout</button>
                     </div>
 

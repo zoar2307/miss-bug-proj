@@ -30,7 +30,7 @@ export function LoginSignup() {
             .then(() => {
                 // showSuccessMsg('Logged in successfully')
                 navigate('/')
-                navigate(0)
+                // navigate(0)
             })
             .catch((err) => { showErrorMsg('Oops try again') })
     }
@@ -41,7 +41,7 @@ export function LoginSignup() {
             .then(() => {
                 // showSuccessMsg('Signed in successfully')
                 navigate('/')
-                navigate(0)
+                // navigate(0)
             })
             .catch((err) => { showErrorMsg('Oops try again') })
     }

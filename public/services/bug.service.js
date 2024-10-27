@@ -17,7 +17,8 @@ export const bugService = {
     save,
     remove,
     createPdf,
-    getDefaultFilter
+    getDefaultFilter,
+    bugCount
 }
 
 
@@ -34,7 +35,7 @@ function queryLabels() {
 
 
 function getDefaultFilter() {
-    return { txt: '', sortBy: 'createdAt', sortDir: -1, minSeverity: 1, pageIdx: 0, selectedLabels: [] }
+    return { txt: '', sortBy: 'createdAt', sortDir: -1, minSeverity: 1, pageIdx: 0, selectedLabels: [], creator: {} }
 }
 
 
@@ -57,6 +58,12 @@ function save(bug) {
 
 function createPdf() {
     return axios.get(BASE_URL + 'pdf')
+}
+
+function bugCount(bugs, userId) {
+    console.log(bugs)
+    bugs.filter(bug => bug.creator._id === userId)
+    return bugs.length
 }
 
 

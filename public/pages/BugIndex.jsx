@@ -1,6 +1,7 @@
 import { bugService } from '../services/bug.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
+import { userService } from '../services/user.service.js'
 
 const { useState, useEffect } = React
 
@@ -8,6 +9,8 @@ export function BugIndex() {
     const [bugs, setBugs] = useState(null)
     const [labels, setLabels] = useState(null)
     const [filterBy, setFilterBy] = useState(bugService.getDefaultFilter())
+
+    const user = userService.getLoggedInUser()
 
 
     useEffect(() => {
@@ -175,7 +178,7 @@ export function BugIndex() {
                 </select>
 
                 <div className='buttons'>
-                    <button onClick={onAddBug}>Add Bug ⛐</button>
+                    {user && <button onClick={onAddBug}>Add Bug ⛐</button>}
                     <button onClick={onBuildPDF}>PDF</button>
                 </div>
             </section >

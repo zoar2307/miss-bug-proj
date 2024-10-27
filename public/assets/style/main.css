@@ -36,6 +36,7 @@ header nav div button {
     color: white;
 }
 
+
 header h1 {
     text-align: center;
 }
@@ -69,9 +70,11 @@ nav a {
 }
 
 nav a:hover {
-    border-bottom: 1px solid whitesmoke;
-    text-decoration: overline;
     color: whitesmoke;
+}
+
+nav div a:hover {
+    color: rgb(245, 245, 245);
 }
 
 .main-title {

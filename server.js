@@ -15,6 +15,7 @@ app.use(express.json())
 
 app.get('/api/bug', (req, res) => {
     const filterBy = req.query
+    console.log(filterBy)
     bugService.query(filterBy)
         .then(bugs => res.send(bugs))
         .catch(err => loggerService.error('Cant load bugs' + err))
@@ -93,6 +94,18 @@ app.get('/api/user', (req, res) => {
         .then(users => {
             res.send(users)
         }).catch(err => loggerService.error('Cant load users' + err))
+})
+
+app.delete('/api/user/:userId', (req, res) => {
+    const loggedInUser = userService.validateToken(req.cookies.loginToken)
+    if (!loggedInUser) return res.status(401).send('Cannot remove user')
+
+    const { userId } = req.params
+    console.log(userId)
+    userService.remove(userId, loggedInUser)
+        .then(() => {
+            res.send('removed')
+        }).catch(err => loggerService.error(err))
 })
 
 app.get('/api/user/:userId', (req, res) => {

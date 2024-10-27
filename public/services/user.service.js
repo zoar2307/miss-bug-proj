@@ -6,10 +6,17 @@ export const userService = {
     signup,
     logout,
     getLoggedInUser,
+    query,
+    remove,
 
 
     getById,
     getEmptyCredentials
+}
+
+function query() {
+    return axios.get(BASE_URL)
+        .then(res => res.data)
 }
 
 function login({ username, password }) {
@@ -35,6 +42,12 @@ function logout() {
         .then(() => {
             sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
         })
+}
+
+function remove(userId) {
+    console.log(userId)
+    return axios.delete(BASE_URL + userId)
+
 }
 
 function getLoggedInUser() {

@@ -8,6 +8,8 @@ import { BugIndex } from './pages/BugIndex.jsx'
 import { BugDetails } from './pages/BugDetails.jsx'
 import { AboutUs } from './pages/AboutUs.jsx'
 import { LoginSignup } from './pages/LoginSignp.jsx'
+import { UserDetails } from './pages/UserDetails.jsx'
+import { UserIndex } from './pages/UserIndex.jsx'
 
 export function App() {
     return (
@@ -21,6 +23,8 @@ export function App() {
                         <Route path="/bug/:bugId" element={<BugDetails />} />
                         <Route path="/about" element={<AboutUs />} />
                         <Route path="/login" element={<LoginSignup />} />
+                        <Route path="/user" element={<UserDetails />} />
+                        <Route path="/user/admin" element={<UserIndex />} />
                     </Routes>
                 </main>
                 <AppFooter />

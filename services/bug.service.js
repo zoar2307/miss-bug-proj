@@ -12,19 +12,29 @@ export const bugService = {
     getById,
     remove,
     save,
-    queryLabels
+    queryLabels,
 }
 
 function query(filterBy) {
     return Promise.resolve(bugs)
         .then(bugs => {
+            console.log(filterBy)
+
+            if (filterBy.all === 'all') {
+                return bugs
+            }
             if (filterBy.txt) {
                 const regExp = new RegExp(filterBy.txt, 'i')
                 bugs = bugs.filter(bug => regExp.test(bug.title))
             } else if (filterBy.minSeverity) {
                 bugs = bugs.filter(bug => bug.severity >= filterBy.minSeverity)
-            } if (filterBy.selectedLabels) {
+            }
+            if (filterBy.selectedLabels) {
                 bugs = bugs.filter(bug => bug.labels.some(label => filterBy.selectedLabels.includes(label)))
+            }
+            if (filterBy.creatorId) {
+                bugs = bugs.filter(bug => bug.creator._id === filterBy.creatorId)
+
             }
 
             if (filterBy.sortBy === 'title') bugs.sort((b1, b2) => b1.title.localeCompare(b2.title) * +filterBy.sortDir)
@@ -62,7 +72,7 @@ function remove(bugId, loggedInUser) {
     const selectBugIdx = bugs.findIndex(bug => bug._id === bugId)
     if (selectBugIdx < 0) return Promise.reject(`Cant find ${bugId}`)
 
-    const bug = bugs[idx]
+    const bug = bugs[selectBugIdx]
     if (!loggedInUser.isAdmin &&
         bug.creator._id !== loggedInUser._id) {
         return Promise.reject('Not your bug')
@@ -96,6 +106,7 @@ function save(bugToSave, loggedInUser) {
             return bugToSave
         })
 }
+
 
 function _saveBugsToFile() {
     return new Promise((resolve, reject) => {

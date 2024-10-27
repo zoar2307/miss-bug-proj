@@ -30,7 +30,7 @@ function query(filterBy) {
             if (filterBy.sortBy === 'title') bugs.sort((b1, b2) => b1.title.localeCompare(b2.title) * +filterBy.sortDir)
             else bugs.sort((b1, b2) => (b1[filterBy.sortBy] - b2[filterBy.sortBy]) * +filterBy.sortDir)
 
-            const startIdx = filterBy.pageIdx || 0 * PAGE_SIZE
+            const startIdx = filterBy.pageIdx * PAGE_SIZE
             return bugs.slice(startIdx, startIdx + PAGE_SIZE)
         })
 }

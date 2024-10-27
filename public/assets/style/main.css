@@ -6,11 +6,40 @@ body {
 
 header {
     background-color: lightskyblue;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 10px 10px;
+
 }
+
+header nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    width: 100%;
+}
+
+header nav a {
+    color: black;
+}
+
+header nav div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-left: auto;
+}
+
+header nav div button {
+    background-color: transparent;
+    border: none;
+    color: white;
+}
+
+header h1 {
+    text-align: center;
+}
+
 
 .main-app {
     display: flex;
@@ -145,7 +174,7 @@ nav a:hover {
 
 
 .container {
-    padding-inline: 8rem;
+    /* padding-inline: 8rem; */
 }
 
 button {

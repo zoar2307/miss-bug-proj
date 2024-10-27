@@ -4,7 +4,7 @@ import Cryptr from 'cryptr'
 import { utilService } from "./util.service.js"
 import { bugService } from './bug.service.js'
 
-const cryptr = new Cryptr('secret-zyBugs-1234')
+const cryptr = new Cryptr(process.env.SECRET)
 const users = utilService.readJsonFile('./data/user.json')
 
 export const userService = {

@@ -6,7 +6,7 @@ import { createPdf } from './services/PDFService.js'
 import { userService } from './services/userService.js'
 
 const app = express()
-const PORT = 3030
+const PORT = process.env.PORT || 3030
 
 
 app.use(express.static('public'))
